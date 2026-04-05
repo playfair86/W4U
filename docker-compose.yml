@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: w4u
+      POSTGRES_PASSWORD: w4u_dev
+      POSTGRES_DB: w4u_dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U w4u -d w4u_dev']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./packages/api
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://w4u:w4u_dev@postgres:5432/w4u_dev
+    volumes:
+      - ./packages/api/src:/app/src
+      - ./packages/shared/src:/shared/src
+
+volumes:
+  pgdata:
