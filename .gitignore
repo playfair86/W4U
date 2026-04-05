@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# React Native - Android
+packages/mobile/android/app/build/
+packages/mobile/android/.gradle/
+packages/mobile/android/local.properties
+
+# React Native - iOS
+packages/mobile/ios/Pods/
+packages/mobile/ios/build/
+packages/mobile/ios/*.xcworkspace/xcuserdata/
+
+# React Native - Metro
+packages/mobile/.metro-health-check*
+
+# Docker
+docker-volumes/
+
+# Test coverage
+coverage/
+.nyc_output/
