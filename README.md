@@ -8,6 +8,7 @@ See [`W4U_Product_Spec.pdf`](./W4U_Product_Spec.pdf), [`W4U_Business_Plan.pdf`](
 
 ## Architecture
 
+- **Web demo**: Next.js 14 + Tailwind (clickable prototype, `packages/web`)
 - **Mobile**: React Native + TypeScript (targets low-end Android)
 - **API**: Node.js + Express + TypeScript (microservice-ready structure)
 - **Database**: PostgreSQL 16 via Knex
@@ -23,7 +24,8 @@ W4U/
 │   ├── shared/        # Shared types, enums, constants
 │   ├── api/           # Express backend with service modules
 │   │   └── src/services/{auth,marketplace,payment}/
-│   └── mobile/        # React Native app
+│   ├── mobile/        # React Native app
+│   └── web/           # Next.js clickable demo (mock data)
 ├── docker-compose.yml
 └── package.json       # npm workspaces root
 ```
@@ -42,7 +44,29 @@ Per the product spec, W4U implements a 5-tier progressive trust system:
 | `COMMUNITY_VOUCHED` | 5+ unique vouches | Featured in neighbourhood feeds |
 | `FULLY_VETTED` | Background check complete | Top of search, premium badge |
 
-## Quick Start
+## Web Demo (fastest way to see it)
+
+The `packages/web` app is a clickable Next.js prototype with mock data — no database, no API required. Run it locally or deploy to Vercel in minutes.
+
+### Run locally
+
+```bash
+npm install
+npm run dev:web
+```
+
+Open http://localhost:3001 — landing page with full click-through: register → OTP → home feed → job detail → post job → wallet → profile.
+
+### Deploy to Vercel
+
+1. Push this branch to GitHub (already done if you're reading this)
+2. Go to https://vercel.com/new and import the repo
+3. Vercel auto-detects Next.js via the root `vercel.json` — no config changes needed
+4. Click **Deploy**
+
+Your app will be live at `https://<project>.vercel.app` in ~2 minutes.
+
+## Quick Start (full API stack)
 
 ### Prerequisites
 - Node.js ≥ 20

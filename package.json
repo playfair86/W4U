@@ -6,11 +6,14 @@
   "workspaces": [
     "packages/shared",
     "packages/api",
-    "packages/mobile"
+    "packages/mobile",
+    "packages/web"
   ],
   "scripts": {
     "dev:api": "npm run dev -w @w4u/api",
     "dev:mobile": "npm run start -w @w4u/mobile",
+    "dev:web": "npm run dev -w @w4u/web",
+    "build:web": "npm run build -w @w4u/web",
     "build:api": "npm run build -w @w4u/api",
     "build:shared": "npm run build -w @w4u/shared",
     "db:migrate": "npm run migrate -w @w4u/api",
