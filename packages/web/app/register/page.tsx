@@ -3,32 +3,39 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { Logo } from "@/components/Logo";
+
+type UserType = "PROVIDER" | "CONSUMER" | "BOTH";
+
+const TYPES: { key: UserType; icon: string; title: string; desc: string }[] = [
+  { key: "PROVIDER", icon: "🛠️", title: "I Offer Services", desc: "I want to get found, rated, and paid" },
+  { key: "CONSUMER", icon: "🔍", title: "I Need Services", desc: "I want to find, hire, and tip" },
+  { key: "BOTH", icon: "⇄", title: "Both", desc: "I offer and need services" },
+];
 
 export default function RegisterPage() {
   const router = useRouter();
   const [phone, setPhone] = useState("");
-  const [userType, setUserType] = useState<"PROVIDER" | "CONSUMER">("PROVIDER");
+  const [userType, setUserType] = useState<UserType>("PROVIDER");
   const [name, setName] = useState("");
 
   const canContinue = phone.length >= 9 && name.trim().length >= 2;
 
   return (
     <PhoneFrame>
-      <div className="flex flex-col px-6 pt-10 pb-6">
-        <Link href="/" className="text-ink-500 text-sm mb-8">
+      <div className="flex flex-col px-6 pt-8 pb-6">
+        <Link href="/onboard" className="text-ink-500 text-sm mb-4 self-start">
           ← Back
         </Link>
 
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-2xl font-bold text-white">
-          W
-        </div>
+        <Logo size="md" />
         <h1 className="mt-6 text-2xl font-bold text-ink-900">Create your account</h1>
-        <p className="mt-2 text-sm text-ink-500">
-          Join W4U in under 2 minutes. We'll send a code to your phone to verify.
+        <p className="mt-1 text-sm text-ink-500">
+          Enter your mobile number to get started
         </p>
 
         <form
-          className="mt-8 space-y-5"
+          className="mt-6 space-y-5"
           onSubmit={(e) => {
             e.preventDefault();
             if (canContinue) router.push(`/verify?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(name)}&type=${userType}`);
@@ -36,35 +43,30 @@ export default function RegisterPage() {
         >
           <div>
             <label className="block text-xs font-semibold text-ink-700 mb-1.5">
-              I want to
+              I am...
             </label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => setUserType("PROVIDER")}
-                className={`rounded-xl border-2 p-3 text-left transition ${
-                  userType === "PROVIDER"
-                    ? "border-brand-600 bg-brand-50"
-                    : "border-ink-100 bg-white"
-                }`}
-              >
-                <div className="text-xl">💪</div>
-                <p className="mt-1 text-sm font-semibold text-ink-900">Find work</p>
-                <p className="text-[11px] text-ink-500">Offer my skills</p>
-              </button>
-              <button
-                type="button"
-                onClick={() => setUserType("CONSUMER")}
-                className={`rounded-xl border-2 p-3 text-left transition ${
-                  userType === "CONSUMER"
-                    ? "border-brand-600 bg-brand-50"
-                    : "border-ink-100 bg-white"
-                }`}
-              >
-                <div className="text-xl">📋</div>
-                <p className="mt-1 text-sm font-semibold text-ink-900">Hire someone</p>
-                <p className="text-[11px] text-ink-500">Post a job</p>
-              </button>
+            <div className="space-y-2">
+              {TYPES.map((t) => (
+                <button
+                  key={t.key}
+                  type="button"
+                  onClick={() => setUserType(t.key)}
+                  className={`flex w-full items-center gap-3 rounded-xl border-2 p-3.5 text-left transition ${
+                    userType === t.key
+                      ? "border-brand-600 bg-brand-50"
+                      : "border-ink-100 bg-white"
+                  }`}
+                >
+                  <span className="text-2xl">{t.icon}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-ink-900">{t.title}</p>
+                    <p className="text-[11px] text-ink-500">{t.desc}</p>
+                  </div>
+                  {userType === t.key && (
+                    <span className="ml-auto text-brand-600 text-lg">✓</span>
+                  )}
+                </button>
+              ))}
             </div>
           </div>
 
